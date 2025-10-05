@@ -1,7 +1,7 @@
 from sentence_transformers import CrossEncoder
 from typing import List, Tuple
 
-CROSS_MODEL = "cross-encoder/ms-marco-MiniLM-L-6-v2"
+CROSS_MODEL = "BAAI/bge-reranker-large"
 
 class Reranker:
     def __init__(self, model_name: str = CROSS_MODEL):
@@ -15,4 +15,5 @@ class Reranker:
         pairs = [[query, c] for c in candidates]
         scores = self.model.predict(pairs)  # higher = better
         idx_sorted = sorted(range(len(scores)), key=lambda i: scores[i], reverse=True)[:top_k]
+
         return [(i, float(scores[i])) for i in idx_sorted]
